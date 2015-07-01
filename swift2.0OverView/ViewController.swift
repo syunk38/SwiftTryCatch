@@ -23,30 +23,31 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         textView.text.removeAll()
         do {
-            textView.text = try self.getTextFromLavel()
-        }
-        catch ParseError.Nil{
-            
-        }
-        
-    }
-    
-    func getTextFromLavel() throws -> String? {
-        do {
-            let text = try label.text
+            textView.text = String(try self.getIntValFromLabel())
         }
         catch ParseError.Nil {
             print("the text is nill")
-            throw ParseError.Nil
         }
         catch ParseError.IllegalFormat(let text) {
             print("format is \(text)")
-            throw ParseError.IllegalFormat(text)
         }
         catch {
             print("unexpected error")
         }
-        return text
+    }
+    
+    func getIntValFromLabel() throws ->Int {
+        defer { print("1") }
+        defer { print("2") }
+        defer { print("3") }
+        // 3,2,1の順番で出力される
+        
+        let integer_val = Int(self.label.text!)
+        guard integer_val != nil else {
+            throw ParseError.Nil
+        }
+        
+        return integer_val!
     }
 
     override func didReceiveMemoryWarning() {
